@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText txtTaille;
     private EditText txtAge;
     private RadioButton rdHomme;
+    private RadioButton rdFemme;
     private TextView lblIMG;
     private ImageView imgSmiley;
     private Controle controle;
@@ -35,12 +36,15 @@ public class MainActivity extends AppCompatActivity {
         txtTaille = (EditText)findViewById(R.id.txtTaille);
         txtAge = (EditText)findViewById(R.id.txtAge);
         rdHomme = (RadioButton)findViewById(R.id.rdHomme);
+        rdFemme = (RadioButton)findViewById(R.id.rdFemme);
         lblIMG = (TextView)findViewById(R.id.lblIMG);
         imgSmiley = (ImageView)findViewById(R.id.imgSmiley);
         // création de l'objet controle
-        this.controle = Controle.getInstance();
+        this.controle = Controle.getInstance(this);
         // appel de la méthode ecouteCalcul
         this.ecouteCalcul();
+        // récupération des données stockées
+        recupProfil();
     }
 
     /**
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void affichResult(Integer poids, Integer taille, Integer age, Integer sexe) {
         // création du profil
-        this.controle.creerProfil(poids, taille, age, sexe);
+        this.controle.creerProfil(poids, taille, age, sexe, this);
         // récupération du message généré et du résultat du calcul
         String message = controle.getMessage();
         float resultat = controle.getImg();
@@ -114,6 +118,31 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * méthode qui récupère le profil enregistré
+     */
+    private void recupProfil() {
+        // vérification de présence de données enregistrées
+        if (controle.getPoids() != null) {
+            txtPoids.setText("" + controle.getPoids());
+        }
+        if (controle.getTaille() != null) {
+            txtTaille.setText("" + controle.getTaille());
+        }
+        if (controle.getAge() != null) {
+            txtAge.setText("" + controle.getAge());
+        }
+        if (controle.getSexe() != null) {
+            if (controle.getSexe() == 1) {
+                rdHomme.setChecked(true);
+            } else if (controle.getSexe() == 0) {
+                rdFemme.setChecked(true);
+            }
+        }
+        // affichage du résultat stocké
+        ((Button)findViewById(R.id.btnCalc)).performClick();
     }
 
     @Override
