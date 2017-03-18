@@ -1,12 +1,15 @@
 package com.example.fred_.coach.modele;
 
-import java.util.function.Function;
+// import java.util.function.Function;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by fred_ on 06/02/2017.
  */
 
-public class Profil {
+public class Profil implements Serializable {
     // déclaration des constantes
     private static final Integer minFemme = 15; // maigre si en - dessous
     private static final Integer maxFemme = 30; // gros si au - dessus
@@ -20,19 +23,22 @@ public class Profil {
     private Integer sexe;
     private float img; // contient le calcul de l'img
     private String message; // contient le message en lien avec l'image
+    private Date dateMesure;
 
     /**
-     * constructeur des 4 propriétés : poids, taille, age, sexe
+     * constructeur des 5 propriétés : poids, taille, age, sexe, dateMes
      * @param poids
      * @param taille
      * @param age
      * @param sexe
+     * @param dateMes
      */
-    public Profil(Integer poids, Integer taille, Integer age, Integer sexe) {
+    public Profil(Integer poids, Integer taille, Integer age, Integer sexe, Date dateMes) {
         this.poids = poids;
         this.taille = taille;
         this.age = age;
         this.sexe = sexe;
+        this.dateMesure = dateMes;
 
         calculIMG();
         resultIMG();
@@ -84,6 +90,14 @@ public class Profil {
      */
     public String getMessage() {
         return message;
+    }
+
+    /**
+     * getter de dateMesure
+     * @return
+     */
+    public Date getDateMesure() {
+        return dateMesure;
     }
 
     /**

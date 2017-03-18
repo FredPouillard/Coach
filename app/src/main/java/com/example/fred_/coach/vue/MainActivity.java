@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         // appel de la méthode ecouteCalcul
         this.ecouteCalcul();
         // récupération des données stockées
-        recupProfil();
+        recupProfil(); // A METTRE SI BESOIN DE SERIALISER OU SI BDD LOCALE
     }
 
     /**
