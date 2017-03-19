@@ -2,8 +2,12 @@ package com.example.fred_.coach.modele;
 
 // import java.util.function.Function;
 
+import org.json.JSONArray;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by fred_ on 06/02/2017.
@@ -131,5 +135,19 @@ public class Profil implements Serializable {
                 message = "IMG trop élevé";
             }
         }
+    }
+
+    /**
+     * méthode qui convertit un objet en JSON
+     * @return
+     */
+    public JSONArray convertToJSONArray() {
+        List laListe = new ArrayList();
+        laListe.add(dateMesure);
+        laListe.add(poids);
+        laListe.add(taille);
+        laListe.add(age);
+        laListe.add(sexe);
+        return new JSONArray(laListe);
     }
 }

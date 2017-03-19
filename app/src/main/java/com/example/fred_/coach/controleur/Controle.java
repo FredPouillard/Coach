@@ -2,9 +2,13 @@ package com.example.fred_.coach.controleur;
 
 import android.content.Context;
 
+import com.example.fred_.coach.modele.AccesDistant;
 import com.example.fred_.coach.modele.AccesLocal;
 import com.example.fred_.coach.modele.Profil;
 import com.example.fred_.coach.outils.Serializer;
+import com.example.fred_.coach.vue.MainActivity;
+
+import org.json.JSONArray;
 
 import java.util.Date;
 
@@ -16,7 +20,9 @@ public final class Controle {
     private static Controle instance = null;
     private static Profil profil;
     private static String nomFic = "saveprofil";
-    private static AccesLocal accesLocal;
+    // private static AccesLocal accesLocal; // A UTILISER SI ACCES A BDD LOCALE
+    private static AccesDistant accesDistant; // A UTILISER SI ACCES A BDD DISTANTE
+    private static Context contexte;
 
     /**
      * Constructeur de la classe
@@ -32,11 +38,14 @@ public final class Controle {
      */
     public final static Controle getInstance(Context contexte) {
         if (Controle.instance == null) {
+            Controle.contexte = contexte;
             Controle.instance = new Controle();
             // récupération des données stockées
             // recupSerialize(contexte); // A METTRE SI BESOIN DE SERIALISER
             // accesLocal = new AccesLocal(contexte); // accès vers la bdd locale SI UTILISATION D'UNE BDD LOCALE
             // profil = accesLocal.recupDernier(); // création d'un profil à partir d'une bdd local SI UTILISATION D'UNE BDD LOCALE
+            accesDistant = new AccesDistant(); // SI UTILISATION D'UNE BDD DISTANTE
+            accesDistant.envoi("dernier", new JSONArray()); // SI UTILISATION D'UNE BDD DISTANTE
         }
         return Controle.instance;
     }
@@ -55,6 +64,8 @@ public final class Controle {
         // Serializer.serialize(nomFic, this.profil, contexte); // A METTRE SI BESOIN DE SERIALISER
         // ajout du profil dans la bdd locale
         // accesLocal.ajout(profil); // ajout du profil dans la bdd locale A UTILISER SI BDD LOCALE
+        // ajout du profil dans la bdd distante
+        accesDistant.envoi("enreg", profil.convertToJSONArray()); // A METTRE SI UTILISATION D'UNE BDD DISTANTE
     }
 
     /**
@@ -135,5 +146,14 @@ public final class Controle {
      */
     private static void recupSerialize(Context contexte) {
         profil = (Profil)Serializer.deSerialize(nomFic, contexte);
+    }
+
+    /**
+     * méthode qui récupère le profil pour un affichage des données après un appel à une BDD distante
+     * @param profil
+     */
+    public void setProfil(Profil profil) {
+        Controle.profil = profil;
+        ((MainActivity)contexte).recupProfil();
     }
 }

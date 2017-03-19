@@ -16,7 +16,8 @@ public abstract class MesOutils {
      * @return
      */
     public static Date convertStringToDate(String laDate) {
-        String expectedPattern = "EEE MMM dd hh:mm:ss 'GMT' yyyy";
+        // String expectedPattern = "EEE MMM dd hh:mm:ss 'GMT' yyyy";
+        String expectedPattern = "dd/MM/yy HH:mm:ss";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
         try {
             Date date = formatter.parse(laDate);

@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         // appel de la méthode ecouteCalcul
         this.ecouteCalcul();
         // récupération des données stockées
-        recupProfil(); // A METTRE SI BESOIN DE SERIALISER OU SI BDD LOCALE
+        // recupProfil(); // A METTRE SI BESOIN DE SERIALISER OU SI BDD LOCALE
     }
 
     /**
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * méthode qui récupère le profil enregistré
      */
-    private void recupProfil() {
+    public void recupProfil() {
         // vérification de présence de données enregistrées
         if (controle.getPoids() != null) {
             txtPoids.setText("" + controle.getPoids());
