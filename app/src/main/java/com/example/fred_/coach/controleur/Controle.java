@@ -3,10 +3,9 @@ package com.example.fred_.coach.controleur;
 import android.content.Context;
 
 import com.example.fred_.coach.modele.AccesDistant;
-import com.example.fred_.coach.modele.AccesLocal;
 import com.example.fred_.coach.modele.Profil;
 import com.example.fred_.coach.outils.Serializer;
-import com.example.fred_.coach.vue.MainActivity;
+import com.example.fred_.coach.vue.CalculActivity;
 
 import org.json.JSONArray;
 
@@ -56,7 +55,7 @@ public final class Controle {
      * @param taille en cm
      * @param age
      * @param sexe 1 pour homme, 0 pour femme
-     * @param contexte contexte (activity) du MainActivity
+     * @param contexte contexte (activity) du CalculActivity
      */
     public void creerProfil(Integer poids, Integer taille, Integer age, Integer sexe, Context contexte) {
         this.profil = new Profil(poids, taille, age, sexe, new Date());
@@ -154,6 +153,6 @@ public final class Controle {
      */
     public void setProfil(Profil profil) {
         Controle.profil = profil;
-        ((MainActivity)contexte).recupProfil();
+        ((CalculActivity)contexte).recupProfil();
     }
 }
