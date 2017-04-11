@@ -108,7 +108,8 @@ public class Profil implements Serializable {
      * méthode qui calcule l'img et valorise la propriété de img
      */
     private void calculIMG() {
-        img = (float)((1.2 * poids / (((float)(taille * taille)) / 10000)) + (0.23 * age) - (10.83 * sexe) - 5.4);
+        float tailleEnM = ((float)taille)/100 ;
+        this.img = (float) ((1.2 * poids / (tailleEnM * tailleEnM)) + (0.23 * age) - (10.83 * sexe) - 5.4);
     }
 
     /**
@@ -117,22 +118,22 @@ public class Profil implements Serializable {
     private void resultIMG() {
         // test pour les femmes
         if (sexe == 0) {
-            if (img < 0.15) {
+            if (img < minFemme) {
                 message = "IMG trop faible";
-            } else if (img > 0.15 && img < 0.3) {
-                message = "IMG normal";
-            } else {
+            } else if (img > maxFemme) {
                 message = "IMG trop élevé";
+            } else {
+                message = "IMG normal";
             }
         }
         // test pour les hommes
         if (sexe == 1) {
-            if (img < 0.1) {
+            if (img < minHomme) {
                 message = "IMG trop faible";
-            } else if (img > 0.1 && img < 0.25) {
-                message = "IMG normal";
-            } else {
+            } else if (img > maxHomme) {
                 message = "IMG trop élevé";
+            } else {
+                message = "IMG normal";
             }
         }
     }

@@ -15,7 +15,11 @@ import android.widget.Toast;
 
 import com.example.fred_.coach.R;
 import com.example.fred_.coach.controleur.Controle;
+import com.example.fred_.coach.outils.MesOutils;
 
+/**
+ * classe pour les calculs
+ */
 public class CalculActivity extends AppCompatActivity {
     // déclaration des propriétés
     private EditText txtPoids;
@@ -26,7 +30,13 @@ public class CalculActivity extends AppCompatActivity {
     private TextView lblIMG;
     private ImageView imgSmiley;
     private Controle controle;
-    private ImageButton imgBtn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_calcul);
+        init();
+    }
 
     /**
      * méthode init qui récupère les objets graphiques
@@ -40,24 +50,21 @@ public class CalculActivity extends AppCompatActivity {
         rdFemme = (RadioButton)findViewById(R.id.rdFemme);
         lblIMG = (TextView)findViewById(R.id.lblIMG);
         imgSmiley = (ImageView)findViewById(R.id.imgSmiley);
-        imgBtn = (ImageButton)findViewById(R.id.btnCalculAccueil);
         // création de l'objet controle
-        this.controle = Controle.getInstance(this);
+        controle = Controle.getInstance(this);
         // appel de la méthode ecouteCalcul
-        this.ecouteCalcul();
+        ecouteCalcul();
         // récupération des données stockées
         // recupProfil(); // A METTRE SI BESOIN DE SERIALISER OU SI BDD LOCALE
         // clic sur le bouton accueil
-        ecouteAccueil(imgBtn, CalculActivity.class);
+        ecouteAccueil();
     }
 
     /**
      * méthode qui gère le clic sur le bouton accueil (retour vers la page d'accueil)
-     * @param imgBtn
-     * @param classe
      */
-    private void ecouteAccueil(ImageButton imgBtn, final Class classe) {
-        imgBtn.setOnClickListener(new Button.OnClickListener() {
+    private void ecouteAccueil() {
+        ((ImageButton) findViewById(R.id.btnCalculAccueil)).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(CalculActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -74,29 +81,28 @@ public class CalculActivity extends AppCompatActivity {
      */
     private void affichResult(Integer poids, Integer taille, Integer age, Integer sexe) {
         // création du profil
-        this.controle.creerProfil(poids, taille, age, sexe, this);
+        controle.creerProfil(poids, taille, age, sexe);
         // récupération du message généré et du résultat du calcul
         String message = controle.getMessage();
         float resultat = controle.getImg();
-        String.format("%01f", resultat);
+        // String.format("%01f", resultat); // inutile car fonction de conversion format2Deciman
         // affichage de l'image, du résultat et du texte
-        if ((resultat < 15 && sexe == 0) || (resultat < 10 && sexe == 1)) {
+        if (message == "IMG trop faible") {
             // trop maigre
             imgSmiley.setImageResource(R.drawable.maigre);
-            lblIMG.setText(Float.toString(resultat) + " : IMG trop faible");
+            lblIMG.setText(MesOutils.format2Deciman(resultat) + " " + message);
             lblIMG.setTextColor(Color.RED);
-        } else if ((resultat > 30 && sexe == 0) || (resultat > 25 && sexe == 1)) {
+        } else if (message == "IMG trop élevé") {
             // trop gros
             imgSmiley.setImageResource(R.drawable.graisse);
-            lblIMG.setText(Float.toString(resultat) + " : IMG trop élevé");
+            lblIMG.setText(MesOutils.format2Deciman(resultat) +  " " + message);
             lblIMG.setTextColor(Color.RED);
         } else {
             // normal
             imgSmiley.setImageResource(R.drawable.normal);
-            lblIMG.setText(Float.toString(resultat) + " : IMG normal");
+            lblIMG.setText(MesOutils.format2Deciman(resultat) + " " + message);
             lblIMG.setTextColor(Color.GREEN);
         }
-
     }
 
     /**
@@ -141,7 +147,7 @@ public class CalculActivity extends AppCompatActivity {
     /**
      * méthode qui récupère le profil enregistré
      */
-    public void recupProfil() {
+    /* public void recupProfil() { // A UTILISER SI PAS DE LISTE HISTORIQUE
         // vérification de présence de données enregistrées
         if (controle.getPoids() != null) {
             txtPoids.setText("" + controle.getPoids());
@@ -161,12 +167,6 @@ public class CalculActivity extends AppCompatActivity {
         }
         // affichage du résultat stocké
         ((Button)findViewById(R.id.btnCalc)).performClick();
-    }
+    } */
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calcul);
-        this.init();
-    }
 }

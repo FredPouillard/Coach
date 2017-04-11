@@ -2,6 +2,8 @@ package com.example.fred_.coach.modele;
 
 import org.junit.Test;
 
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 /**
@@ -9,7 +11,7 @@ import static org.junit.Assert.*;
  */
 public class ProfilTest {
     // création d'un profil : femme de 67 kg, 1m65, 35 ans
-    private Profil profil = new Profil(67, 165, 35, 0);
+    private Profil profil = new Profil(67, 165, 35, 0, new Date());
     // résultat de l'img correspondant
     private float img = (float)32.2;
     // message correspondant

@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -44,21 +45,37 @@ public class AccesDistant implements AsyncResponse {
                 Log.d("serveur", "************Erreur :" + message[1]); // utile pour vérifier
             } else if (message[0].equals("enreg")) {
                 Log.d("serveur", "************Enreg :" + message[1]); // utile pour vérifier
-            } else if (message[0].equals("dernier")) {
+            } else if (message[0].equals("tous")) { // FAIRE LE TEST SUR "dernier" SI PAS DE LISTES HISTORIQUES
                 // Log.d("serveur", "************Dernier :" + message[1]); // utile pour vérifier
                 try {
                     // récupération du dernier profil dans la bdd distante
-                    JSONObject info = new JSONObject(message[1]);
-                    Date dateMesure = MesOutils.convertStringToDate(info.getString("datemesure"));
-                    Integer poids = info.getInt("poids");
-                    Integer taille = info.getInt("taille");
-                    Integer age = info.getInt("age");
-                    Integer sexe = info.getInt("sexe");
-                    Profil profil = new Profil(poids, taille, age, sexe, dateMesure);
-                    controle.setProfil(profil);
+                    // JSONObject info = new JSONObject(message[1]); // A UTILISER SI PAS DE LISTE HISTORIQUE
+                    JSONArray jSonInfo = new JSONArray(message[1]);
+                    ArrayList<Profil> lesProfils = new ArrayList<Profil>();
+                    for(int i = 0; i < jSonInfo.length(); i++) {
+                        JSONObject info = new JSONObject("" + jSonInfo.get(i));
+                        Integer poids = info.getInt("poids");
+                        Integer taille = info.getInt("taille");
+                        Integer age = info.getInt("age");
+                        Integer sexe = info.getInt("sexe");
+                        Date dateMesure = MesOutils.convertStringToDate(info.getString("datemesure"));
+                        Profil profil = new Profil(poids, taille, age, sexe, dateMesure);
+                        lesProfils.add(profil);
+                    }
+                    // Integer poids = info.getInt("poids"); // A UTILISER SI PAS DE LISTE HISTORIQUE
+                    // Integer taille = info.getInt("taille"); // A UTILISER SI PAS DE LISTE HISTORIQUE
+                    // Integer age = info.getInt("age"); // A UTILISER SI PAS DE LISTE HISTORIQUE
+                    // Integer sexe = info.getInt("sexe"); // A UTILISER SI PAS DE LISTE HISTORIQUE
+                    // Date dateMesure = MesOutils.convertStringToDate(info.getString("datemesure")); // A UTILISER SI PAS DE LISTE HISTORIQUE
+                    // Profil profil = new Profil(poids, taille, age, sexe, dateMesure); // A UTILISER SI PAS DE LISTE HISTORIQUE
+                    // controle.setProfil(profil); // A UTILISER SI PAS DE LISTE HISTORIQUE
+                    controle.setLesProfils(lesProfils);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                // le serveur a supprimé un profil et normalement ne retourne rien (juste la requête)
+            } else if (message[0].equals("suppr")) {
+                Log.d("serveur", "************suppr :" + message[1]);
             }
         }
     }

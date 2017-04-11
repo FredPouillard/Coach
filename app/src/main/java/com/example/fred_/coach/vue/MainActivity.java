@@ -10,6 +10,9 @@ import android.widget.ImageButton;
 
 import com.example.fred_.coach.R;
 
+/**
+ * classe principale (menu)
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -28,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton btnMonIMG = (ImageButton)findViewById(R.id.btnMonIMG);
         ImageButton btnMonHistorique = (ImageButton)findViewById(R.id.btnMonHistorique);
         ecouteMenu(btnMonIMG, CalculActivity.class);
-        ecouteMenu(btnMonHistorique, CalculActivity.class);
+        ecouteMenu(btnMonHistorique, HistoActivity.class);
     }
 
     /**

@@ -1,8 +1,11 @@
 package com.example.fred_.coach.outils;
 
+import android.support.annotation.Nullable;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 /**
  * Created by fred_ on 18/03/2017.
@@ -16,7 +19,7 @@ public abstract class MesOutils {
      * @return
      */
     public static Date convertStringToDate(String laDate) {
-        String expectedPattern = "EEE MMM dd hh:mm:ss 'GMT' yyyy";
+        String expectedPattern = "EEE MMM dd hh:mm:ss z yyyy";
         // String expectedPattern = "dd/MM/yy HH:mm:ss";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedPattern);
         try {
@@ -34,8 +37,17 @@ public abstract class MesOutils {
      * @return
      */
     public static String convertDateToString(Date uneDate) {
-        // SimpleDateFormat date = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-        SimpleDateFormat date = new SimpleDateFormat("EEE MMM dd hh:mm:ss 'GMT' yyyy");
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+        // SimpleDateFormat date = new SimpleDateFormat("EEE MMM dd hh:mm:ss 'ZZZ' yyyy");
         return date.format(uneDate);
+    }
+
+    /**
+     * méthode qui convertit un nombre en float vers le type string avec 2 décimales
+     * @param nombre
+     * @return
+     */
+    public static String format2Deciman(Float nombre) {
+        return String.format("%.01f", nombre);
     }
 }
