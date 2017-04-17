@@ -19,7 +19,7 @@ import java.util.Date;
 
 public final class Controle {
     private static Controle instance = null;
-    // private static Profil profil; // A UTILISER SI PAS DE LISTE HISTORIQUE
+    // private static Profil profil; // A UTILISER SI PAS DE LISTES HISTORIQUES
     private static ArrayList<Profil> lesProfils = new ArrayList<Profil>();
     private static String nomFic = "saveprofil";
     // private static AccesLocal accesLocal; // A UTILISER SI ACCES A BDD LOCALE
